@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoVida 🌱</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            🌱 EcoVida
+        </div>
+
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#habitos">Hábitos</a>
+            <a href="#dica">Dica</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- INÍCIO -->
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-text">
+
+                <span class="tag">🌎 Cuidando do planeta</span>
+
+                <h1>
+                    Pequenas atitudes.
+                    <span>Grande impacto.</span>
+                </h1>
+
+                <p>
+                    O EcoVida ajuda você a acompanhar suas atitudes
+                    sustentáveis e transformar pequenas ações em hábitos
+                    que fazem bem para o planeta.
+                </p>
+
+                <a href="#habitos" class="botao">
+                    Começar agora 🌱
+                </a>
+
+            </div>
+
+            <div class="hero-image">
+                🌳
+            </div>
+
+        </section>
+
+
+        <!-- PONTUAÇÃO -->
+
+        <section class="pontuacao">
+
+            <div>
+                <h2>{{ pontos }}</h2>
+                <p>Pontos sustentáveis</p>
+            </div>
+
+            <div>
+                <h2>{{ habitos|length }}</h2>
+                <p>Hábitos registrados</p>
+            </div>
+
+            <div>
+                <h2>🌎</h2>
+                <p>Ajude o planeta</p>
+            </div>
+
+        </section>
+
+
+        <!-- HÁBITOS -->
+
+        <section class="conteudo" id="habitos">
+
+            <div class="titulo">
+
+                <span class="tag">♻️ Seus hábitos</span>
+
+                <h2>
+                    Registre uma atitude sustentável
+                </h2>
+
+                <p>
+                    Escolha uma ação que você realizou hoje.
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                {% for id, habito in opcoes.items() %}
+
+                <form action="/registrar"
+                      method="POST"
+                      class="card">
+
+                    <div class="icone">
+                        {{ habito["icone"] }}
+                    </div>
+
+                    <h3>
+                        {{ habito["nome"] }}
+                    </h3>
+
+                    <p>
+                        +{{ habito["pontos"] }} pontos
+                    </p>
+
+                    <input type="hidden"
+                           name="habito"
+                           value="{{ id }}">
+
+                    <button type="submit">
+                        Registrar
+                    </button>
+
+                </form>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- HÁBITOS REGISTRADOS -->
+
+        <section class="registros">
+
+            <div class="titulo">
+
+                <span class="tag">🏆 Seu progresso</span>
+
+                <h2>
+                    Minhas ações
+                </h2>
+
+            </div>
+
+
+            {% if habitos %}
+
+                <div class="lista">
+
+                    {% for habito in habitos %}
+
+                    <div class="registro">
+
+                        <span class="registro-icone">
+                            {{ habito["icone"] }}
+                        </span>
+
+                        <div>
+                            <strong>
+                                {{ habito["nome"] }}
+                            </strong>
+
+                            <p>
+                                +{{ habito["pontos"] }} pontos
+                            </p>
